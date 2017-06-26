@@ -1,0 +1,18 @@
+body {
+  background-image: url("https://images.unsplash.com/photo-1486742913764-cdb6b28038f9?ixlib=rb-0.3.5&q=85&fm=jpg&crop=entropy&cs=srgb&dl=lauren-lester-205923.jpg&s=5626afae06e7a3f8289c42e8d4f6eb5d");
+  background-size: cover;
+  background-position: center;
+}
+
+.topHead h1 {
+  text-align: center;
+  color: white;
+}
+
+.content {
+  margin: 0 auto;
+  max-width: 400px;
+  padding: 20px 24px 24px;
+  background-color: #fff;
+  border-radius: 8px;
+}
