@@ -1,0 +1,21 @@
+<div class="openingSearch">
+
+  <h1>MealWise</h1>
+
+  <div class="content">
+    <input type="text" placeholder='Type of food' ng-model='mc.mealInfoInput'>
+    <input type="text" placeholder='City' ng-model='mc.cityInput'>
+    <button class="btn btn-default" ng-click='mc.getMealInfo()'>Search! <i class="fa fa-search" aria-hidden="true"></i></button>
+  </div>
+</div>
+
+<div class="topMeals" ng-init=""> <!-- top meals in area function -->
+  <h2>Top Meals Near You</h2>
+  <div id="map"></div>
+
+  <div class="row">
+    <div class="col-md-4" ng-repeat=""> <!-- repeat top meals in area -->
+
+    </div>
+  </div>
+</div>

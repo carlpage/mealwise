@@ -1,13 +1,18 @@
 body {
-  background-image: url("https://images.unsplash.com/photo-1486742913764-cdb6b28038f9?ixlib=rb-0.3.5&q=85&fm=jpg&crop=entropy&cs=srgb&dl=lauren-lester-205923.jpg&s=5626afae06e7a3f8289c42e8d4f6eb5d");
-  background-size: cover;
-  background-position: center;
   font-family: "Lato";
+
 }
 
-.topHead h1 {
+.openingSearch {
+  background-image: url("https://images.unsplash.com/photo-1462837019796-6f0204b48d95?ixlib=rb-0.3.5&q=85&fm=jpg&crop=entropy&cs=srgb&dl=jez-timms-90838.jpg&s=b93fdce278fae78fc02dae95666e3f65");
+  background-size: cover;
+  background-position: center middle;
+  padding-bottom: 15%;
+}
+
+.openingSearch h1 {
   color: #424342;
-  margin-top: 10%;
+  padding-top: 10%;
   text-align: center;
   color: black;
   font-size: 5.5rem;
@@ -27,4 +32,12 @@ body {
 
 .btn-default {
   margin-top: 10px;
+}
+
+.topMeals {
+
+}
+
+.topMeals h2 {
+  text-align: center;
 }
