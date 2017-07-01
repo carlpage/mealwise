@@ -48,6 +48,10 @@ myApp.config(['$routeProvider', function($routeProvider) {
     templateUrl: "partials/home.html",
     controller: "mealController as mc",
     css: "styles/home.css"
+  }).when('/searchResults', {
+    templateUrl: "partials/searchResults.html",
+    controller: "mealController as mc",
+    css: "styles/searchResults.css"
   });
 }]);
 
@@ -79,9 +83,17 @@ myApp.config(['$routeProvider', function($routeProvider) {
 //   navigator.geolocation.getCurrentPosition(success, error);
 // }
 
-myApp.controller('mealController', function(MealService) {
+myApp.controller('mealController', function(MealService, $location) {
   console.log('in the controller');
   var vm = this;
+
+  vm.go = function(path) {
+    if (path == '/logIn') {
+      $location.path(path);
+    } else {
+      $location.path(path);
+    }
+  };
 
   vm.logIn = function() {
     console.log('clicked log in');
@@ -92,10 +104,22 @@ myApp.controller('mealController', function(MealService) {
     MealService.logIn(registerObject).then(function() {
       console.log('from controller', MealService.response);
       if (MealService.response.data === 'Match!!!') {
-        vm.hasAccess = true;
+        vm.go('/home');
       } else {
-        vm.hasAccess = false;
-      }
+        swal({
+          type: 'error',
+          title: 'Rejected!',
+          text: 'Username or password not found',
+          timer: 3000
+        }).then(
+          function() {},
+          // handling the promise rejection
+          function(dismiss) {
+            if (dismiss === 'timer') {
+              console.log('I was closed by the timer')
+            }
+          })
+      } // end else
     }); // end MealService
   } // end logIn
 
@@ -108,14 +132,33 @@ myApp.controller('mealController', function(MealService) {
     MealService.register(registerObject).then(function() {
       vm.registerNameInput = '';
       vm.registerPasswordInput = '';
-      vm.toggleLogin();
     }); // end then
   } // end register
 
   vm.logOut = function() {
-    vm.loggedIn = true;
     vm.nameInput = '';
     vm.passwordInput = '';
   } // end logOut
+
+  vm.zomatoSearch = function() {
+    console.log('in controller, zomatoSearch');
+    var searchObject = {
+      food: vm.foodInput,
+      city: vm.cityInput
+    }; // figure out how to send info over to Zomato API and get a response
+    console.log(searchObject);
+    MealService.zomatoSearch(searchObject).then(function(response) {
+      vm.searchInfo = response.restaurants;
+      console.log('back in zomatoSearch with: ', vm.searchInfo.restaurants);
+    });
+  } // end zomatoSearch
+
+  vm.openMenuGet = function() {
+    console.log('in controller, openMenuGet');
+    MealService.openMenuGet().then(function(response) {
+      vm.menuInfo = response;
+      console.log('back in openMenuGet with: ', vm.menuInfo);
+    });
+  } // end openMenuGet
 
 });
