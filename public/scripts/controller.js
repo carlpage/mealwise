@@ -48,40 +48,12 @@ myApp.config(['$routeProvider', function($routeProvider) {
     templateUrl: "partials/home.html",
     controller: "mealController as mc",
     css: "styles/home.css"
-  }).when('/searchResults', {
-    templateUrl: "partials/searchResults.html",
+  }).when('/restaurantMenu', {
+    templateUrl: "partials/restaurantMenu.html",
     controller: "mealController as mc",
-    css: "styles/searchResults.css"
+    css: "styles/restaurantMenu.css"
   });
 }]);
-
-// function geoFindMe() {
-//   var output = document.getElementById("out");
-//
-//   if (!navigator.geolocation){
-//     output.innerHTML = "<p>Geolocation is not supported by your browser</p>";
-//     return;
-//   }
-//
-//   function success(position) {
-//     var latitude  = position.coords.latitude;
-//     var longitude = position.coords.longitude;
-//
-//     output.innerHTML = '<p>Latitude is ' + latitude + '° <br>Longitude is ' + longitude + '°</p>';
-//
-//     var img = new Image();
-//     img.src = "https://maps.googleapis.com/maps/api/staticmap?center=" + latitude + "," + longitude + "&zoom=13&size=300x300&sensor=false";
-//
-//     output.appendChild(img);
-//   }
-//
-//   function error() {
-//     output.innerHTML = "Unable to retrieve your location";
-//   }
-//   output.innerHTML = "<p>Locating…</p>";
-//
-//   navigator.geolocation.getCurrentPosition(success, error);
-// }
 
 myApp.controller('mealController', function(MealService, $location) {
   console.log('in the controller');
@@ -94,6 +66,11 @@ myApp.controller('mealController', function(MealService, $location) {
       $location.path(path);
     }
   };
+
+  vm.menuCall = function(obj) {
+    vm.go('/restaurantMenu')
+    vm.openMenuGet(obj);
+  } // doesn't work
 
   vm.logIn = function() {
     console.log('clicked log in');
@@ -140,24 +117,19 @@ myApp.controller('mealController', function(MealService, $location) {
     vm.passwordInput = '';
   } // end logOut
 
-  vm.zomatoSearch = function() {
-    console.log('in controller, zomatoSearch');
-    var searchObject = {
-      food: vm.foodInput,
-      city: vm.cityInput
-    }; // figure out how to send info over to Zomato API and get a response
-    console.log(searchObject);
-    MealService.zomatoSearch(searchObject).then(function(response) {
-      vm.searchInfo = response.restaurants;
-      console.log('back in zomatoSearch with: ', vm.searchInfo.restaurants);
-    });
-  } // end zomatoSearch
-
   vm.openMenuGet = function() {
-    console.log('in controller, openMenuGet');
-    MealService.openMenuGet().then(function(response) {
-      vm.menuInfo = response;
-      console.log('back in openMenuGet with: ', vm.menuInfo);
+    var searchObject = {
+      name: vm.nameInput,
+      city: vm.cityInput
+    }
+    MealService.openMenuGet(searchObject).then(function(response) {
+      vm.id = response.response.result.restaurants[0].id;
+      console.log('back in openMenuGet with: ', vm.id);
+      MealService.restaurantGet(vm.id).then(function(response) {
+        vm.restaurantName = response.response.result.restaurant_info;
+        vm.menuInfo = response.response.result.menus[0].menu_groups;
+        console.log('back in restaurantGet with: ', vm.menuInfo);
+      });
     });
   } // end openMenuGet
 

@@ -1,5 +1,8 @@
 body {
   font-family: "Lato";
+  background-image: url("../../images/jez-timms-90838.jpg");
+  background-size: cover;
+  background-position: center middle;
 }
 
 .navbar-header a {
@@ -10,15 +13,8 @@ body {
   font-size: 1.7rem;
 }
 
-.openingSearch {
-  background-image: url("../../images/jez-timms-90838.jpg");
-  background-size: cover;
-  background-position: center middle;
-  padding-bottom: 13%;
-}
-
 .topHead {
-  padding-top: 4%;
+  padding-top: 5%;
   text-align: center;
   color: white;
 }

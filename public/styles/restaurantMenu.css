@@ -1,0 +1,46 @@
+body {
+  margin-bottom: 60px;
+}
+
+.navbar-header a {
+  font-size: 2.2rem;
+}
+
+#navbar a {
+  font-size: 1.7rem;
+}
+
+.navbar:last-child {
+  background-color: #e7e7e7;
+  color: black;
+  text-align: center;
+  padding-top: 4px;
+}
+
+form {
+  text-align: center;
+  margin: 0 auto;
+  padding: 20px 24px 24px;
+  padding-top: 5%;
+  background-color: #073B4C;
+}
+
+.form-inline img {
+  height: 4.5rem;
+  margin-right: 2rem;
+  margin-top: -1rem;
+  margin-bottom: -1rem;
+}
+
+h1, h3, h4, h5 {
+  text-align: center;
+}
+
+#menuItem {
+  background-color: #eee;
+border-radius: 20px;
+border: 1px solid #ccc;
+text-align: center;
+padding: 10px;
+height: auto;
+}

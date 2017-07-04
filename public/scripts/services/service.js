@@ -1,8 +1,6 @@
 myApp.service('MealService', function($http) {
   var sv = this;
   var openMenuToken = '8c3043ce-5bb0-11e7-8837-00163eeae34c';
-  var zomatoToken = '5848f81b153de5fca516aaac161f59f3';
-  var parameters = 'Minneapolis'; // test parameter
 
   sv.logIn = function(credentials) {
     return $http({
@@ -25,33 +23,38 @@ myApp.service('MealService', function($http) {
     });
   } // end register
 
-  sv.zomatoSearch = function(searchObject) {
-    console.log(searchObject);
+  sv.openMenuGet = function(restaurant) {
+    console.log('info', restaurant);
     return $http({
       method: 'GET',
-      url: 'https://developers.zomato.com/api/v2.1/search?',
+      url: 'https://openmenu.com/api/v2/search.php?key=8c3043ce-5bb0-11e7-8837-00163eeae34c', // edit parameters
       headers: {
-        'user_key': zomatoToken
+        'key': openMenuToken
       },
       params: {
-        entity_type: 'city',
-        q: searchObject.food, // just a test
-        sort: 'rating',
-        order: 'desc'
+        s: restaurant.name,
+        city: restaurant.city,
+        state: 'MN',
+        country: 'US'
       }
     }).then(function(response) {
-      console.log(response.data);
+      console.log('in service, restaurant data: ', response.data);
       return response.data;
     });
-  } // end zomatoSearch
+  } // end openMenuGet
 
-  sv.openMenuGet = function(restaurant) {
+  sv.restaurantGet = function(id) { // test
     return $http({
       method: 'GET',
-      url: 'https://openmenu.com/api/v2/restaurant.php?key=' + openMenuToken + '&name=' + name, // edit parameters
-      dataType: "jsonp"
+      url: 'https://openmenu.com/api/v2/restaurant.php?key=8c3043ce-5bb0-11e7-8837-00163eeae34c', // edit parameters
+      headers: {
+        'key': openMenuToken
+      },
+      params: {
+        id: id
+      }
     }).then(function(response) {
-      console.log(response.data);
+      console.log('in service, Menu data: ', response.data);
       return response.data;
     });
   } // end openMenuGet
