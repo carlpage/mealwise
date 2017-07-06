@@ -39,6 +39,7 @@ myApp.service('MealService', function($http) {
       }
     }).then(function(response) {
       console.log('in service, restaurant data: ', response.data);
+      sv.menuData = response.data;
       return response.data;
     });
   } // end openMenuGet
@@ -58,5 +59,15 @@ myApp.service('MealService', function($http) {
       return response.data;
     });
   } // end openMenuGet
+
+  // sv.postRating = function(ratingObject) {
+  //   return $http({
+  //     method: 'POST',
+  //     url: '/restaurant/add/' + ratingObject.meal + 'rating',
+  //     data: ratingObject
+  //   }).then(function(response) {
+  //     console.log('back from postRating:', response);
+  //   });
+  // }
 
 });

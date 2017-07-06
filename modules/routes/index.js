@@ -2,7 +2,7 @@ var express = require('express');
 var path = require('path');
 var router = express.Router();
 var bodyParser = require('body-parser');
-var mongo = require('../mongo');
+var user = require('../user');
 var bcrypt = require('bcrypt');
 
 // uses
@@ -11,23 +11,23 @@ router.use(bodyParser.json());
 
 router.get('/', function(req, res) {
   console.log('base url head');
-  res.sendFile(path.resolve('public/views/index.html'))
+  res.sendFile(path.resolve('public/views/index.html'));
 });
 
 router.post('/', function(req, res) {
   console.log('base post hit:', req.body);
   // Seeing if the username exists
-  mongo.findOne({
+  user.findOne({
     username: req.body.username
-  }, function(err, mongo) {
+  }, function(err, user) {
     if (err) {
-      console.log('find mongo err', err);
+      console.log('find user err', err);
       res.sendStatus(400)
     } else {
       //compares passwords
-      if (mongo != undefined) {
-        console.log('comparing: ', req.body.password, mongo.password);
-        bcrypt.compare(req.body.password, mongo.password, function(err, isMatch) {
+      if (user != undefined) {
+        console.log('comparing: ', req.body.password, user.password);
+        bcrypt.compare(req.body.password, user.password, function(err, isMatch) {
           if (err) {
             console.log('compare err', err);
             res.sendStatus(400)

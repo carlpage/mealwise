@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
-var mongo = require('../mongo');
+var user = require('../user');
 var bcrypt = require('bcrypt');
 
 router.use(bodyParser.urlencoded({extended: true}));
@@ -29,8 +29,8 @@ router.post('/', function(req, res) {
           };
           console.log('saving user:', newUser);
           // save newUser to db
-          // exporting model from mongo
-          mongo(newUser).save();
+          // exporting model from user
+          user(newUser).save();
           res.sendStatus(201);
         }
       });

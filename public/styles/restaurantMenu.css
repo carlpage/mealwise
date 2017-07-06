@@ -17,7 +17,7 @@ body {
   padding-top: 4px;
 }
 
-form {
+#topForm {
   text-align: center;
   margin: 0 auto;
   padding: 20px 24px 24px;
@@ -38,9 +38,15 @@ h1, h3, h4, h5 {
 
 #menuItem {
   background-color: #eee;
-border-radius: 20px;
-border: 1px solid #ccc;
-text-align: center;
-padding: 10px;
-height: auto;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  text-align: center;
+  padding: 10px;
+  height: auto;
+  padding: 5px;
+}
+
+.btn-xs {
+  margin-left: .5rem;
+  margin-bottom: 2px
 }

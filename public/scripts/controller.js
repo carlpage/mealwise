@@ -1,3 +1,7 @@
+$(document).ready(function() {
+  $('collapse').collapse();
+});
+
 var myApp = angular.module('myApp', ['ngRoute']);
 
 myApp.directive('head', ['$rootScope', '$compile',
@@ -60,16 +64,12 @@ myApp.controller('mealController', function(MealService, $location) {
   var vm = this;
 
   vm.go = function(path) {
-    if (path == '/logIn') {
-      $location.path(path);
-    } else {
-      $location.path(path);
-    }
+    $location.url(path);
   };
 
-  vm.menuCall = function(obj) {
-    vm.go('/restaurantMenu')
-    vm.openMenuGet(obj);
+  vm.menuCall = function() {
+    vm.go('/restaurantMenu');
+    vm.openMenuGet();
   } // doesn't work
 
   vm.logIn = function() {
@@ -123,14 +123,41 @@ myApp.controller('mealController', function(MealService, $location) {
       city: vm.cityInput
     }
     MealService.openMenuGet(searchObject).then(function(response) {
-      vm.id = response.response.result.restaurants[0].id;
-      console.log('back in openMenuGet with: ', vm.id);
-      MealService.restaurantGet(vm.id).then(function(response) {
-        vm.restaurantName = response.response.result.restaurant_info;
-        vm.menuInfo = response.response.result.menus[0].menu_groups;
-        console.log('back in restaurantGet with: ', vm.menuInfo);
-      });
+      if (response.response.result.errors) {
+        swal({
+          type: 'error',
+          title: 'Nope!',
+          text: 'Restaurant not found',
+          timer: 3000
+        }).then(
+          function() {},
+          // handling the promise rejection
+          function(dismiss) {
+            if (dismiss === 'timer') {
+              console.log('I was closed by the timer')
+            }
+          })
+      } else {
+        console.log('back in openMenuGet with: ', vm.id);
+        vm.id = response.response.result.restaurants[0].id;
+        MealService.restaurantGet(vm.id).then(function(response) {
+          vm.restaurantName = response.response.result.restaurant_info;
+          vm.menuInfo = response.response.result.menus[0].menu_groups;
+          console.log('back in restaurantGet with: ', vm.menuInfo);
+        });
+      }
     });
   } // end openMenuGet
+
+  // vm.postRating = function() {
+  //   var ratingObject = {
+  //     meal: ,
+  //     rating: vm.rating
+  //   };
+  //   console.log(ratingObject);
+  //   MealService.postRating(ratingObject).then(function() {
+  //     // vm.openMenuGet(); // How would I post a review immediately to the page? Could reload the page and call openMenuGet based on the inputs.
+  //   });
+  // } // end postToShelf
 
 });

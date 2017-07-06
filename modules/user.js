@@ -3,7 +3,7 @@ var mongoose = require ('mongoose');
 mongoose.connect ('localhost:27017/meals');
 
 var userSchema = new mongoose.Schema({
-  username:String,
+  username: String,
   password: String
 });
 
