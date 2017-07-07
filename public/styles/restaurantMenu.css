@@ -36,14 +36,13 @@ h1, h3, h4, h5 {
   text-align: center;
 }
 
-#menuItem {
+.thumbnail {
   background-color: #eee;
   border-radius: 20px;
   border: 1px solid #ccc;
   text-align: center;
   padding: 10px;
   height: auto;
-  padding: 5px;
 }
 
 .btn-xs {

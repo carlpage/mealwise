@@ -50,12 +50,12 @@ myApp.config(['$routeProvider', function($routeProvider) {
     css: "styles/style.css"
   }).when('/home', {
     templateUrl: "partials/home.html",
-    controller: "mealController as mc",
+    controller: "storageController as sc",
     css: "styles/home.css"
   }).when('/restaurantMenu', {
     templateUrl: "partials/restaurantMenu.html",
     controller: "mealController as mc",
-    css: "styles/restaurantMenu.css"
+    css: "styles/restaurantMenu.css",
   });
 }]);
 
@@ -66,11 +66,6 @@ myApp.controller('mealController', function(MealService, $location) {
   vm.go = function(path) {
     $location.url(path);
   };
-
-  vm.menuCall = function() {
-    vm.go('/restaurantMenu');
-    vm.openMenuGet();
-  } // doesn't work
 
   vm.logIn = function() {
     console.log('clicked log in');
@@ -134,7 +129,7 @@ myApp.controller('mealController', function(MealService, $location) {
           // handling the promise rejection
           function(dismiss) {
             if (dismiss === 'timer') {
-              console.log('I was closed by the timer')
+              console.log('I was closed by the timer');
             }
           })
       } else {
@@ -148,6 +143,36 @@ myApp.controller('mealController', function(MealService, $location) {
       }
     });
   } // end openMenuGet
+
+  vm.menuRequest = function() {
+    console.log(MealService.sl[0]);
+    var obj = MealService.sl[0];
+    MealService.openMenuGet(obj).then(function(response) {
+      if (response.response.result.errors) {
+        swal({
+          type: 'error',
+          title: 'Nope!',
+          text: 'Restaurant not found',
+          timer: 3000
+        }).then(
+          function() {},
+          // handling the promise rejection
+          function(dismiss) {
+            if (dismiss === 'timer') {
+              console.log('I was closed by the timer');
+            }
+          })
+      } else {
+        console.log('back in openMenuGet with: ', vm.id);
+        vm.id = response.response.result.restaurants[0].id;
+        MealService.restaurantGet(vm.id).then(function(response) {
+          vm.restaurantName = response.response.result.restaurant_info;
+          vm.menuInfo = response.response.result.menus[0].menu_groups;
+          console.log('back in restaurantGet with: ', vm.menuInfo);
+        });
+      }
+    });
+  }
 
   // vm.postRating = function() {
   //   var ratingObject = {

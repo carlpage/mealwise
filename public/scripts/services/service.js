@@ -1,5 +1,6 @@
 myApp.service('MealService', function($http) {
   var sv = this;
+  var storageList = [];
   var openMenuToken = '8c3043ce-5bb0-11e7-8837-00163eeae34c';
 
   sv.logIn = function(credentials) {
@@ -22,6 +23,18 @@ myApp.service('MealService', function($http) {
       console.log('back from register attempt:', response);
     });
   } // end register
+
+  sv.addRequest = function(storageObject) {
+    console.log(storageList);
+    sv.sl = storageList;
+    return storageList.unshift(storageObject);
+  };
+
+  sv.getRequests = function() {
+    console.log(storageList);
+    sv.sl = storageList;
+    return sv.sl;
+  };
 
   sv.openMenuGet = function(restaurant) {
     console.log('info', restaurant);

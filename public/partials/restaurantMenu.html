@@ -30,35 +30,37 @@
 </form>
 <!-- testing -->
 
-<div class="container" ng-init="mc.restaurantGet()">
-  <!-- switch to openMenuGet -->
+<div class="container" ng-init="mc.menuRequest()">
 
   <div class="row">
     <h1>{{mc.restaurantName.restaurant_name}}</h1>
     <h4>{{mc.restaurantName.address_1}}<span>, {{mc.restaurantName.city_town}}, {{mc.restaurantName.state_province}}</span></h4>
     <div class="col-md-12" id="menu" ng-repeat="menu in mc.menuInfo">
       <h3>{{menu.group_name}}</h3>
-      <div class="text-center col-md-6" id="menuItem" ng-repeat="items in menu.menu_items">
-        <h4>{{items.menu_item_name}}</h4>
-        <h5>{{items.menu_item_description}}</h5>
-        <h5>{{items.menu_item_price | currency:'$':2}}</h5>
-        <p>Average Rating: </p>
-        <h5></h5>
-        <form class="form-inline">
-          <div class="form-group">
-            <p>Your rating: <input type="number" ng-model='mc.rating' step="0.5" min=1 max=5><span><button class="btn btn-default btn-xs" ng-click='mc.ratingPut()'>Add</button></span></p>
-          </div>
-        </form>
+      <div class="text-center col-md-6" ng-repeat="items in menu.menu_items track by $index">
+        <div class="thumbnail">
+          <h4>{{items.menu_item_name}}</h4>
+          <h5>{{items.menu_item_description}}</h5>
+          <h5>{{items.menu_item_price | currency:'$':2}}</h5>
+          <p>Average Rating: </p>
+          <h5></h5>
+          <form class="form-inline">
+            <div class="form-group">
+              <p>Your rating: <input type="number" ng-model='mc.rating[$index]' step="0.5" min=1 max=5><span><button class="btn btn-default btn-xs" ng-click='mc.ratingPut()'>Add</button></span></p>
+            </div>
+          </form>
 
-        <button class="btn btn-primary btn-sm" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">View Comments</button>
-        <div class="collapse" id="collapseExample">
+          <button class="btn btn-primary btn-sm" type="button" data-toggle="collapse" data-target="#collapseComments" aria-expanded="false" aria-controls="collapseComments">View Comments</button>
+          <div class="collapse" id="collapseComments">
 
-          <div class="well">
-            ...
+            <div class="well">
+              ...
+            </div>
+            <!-- Create ng-repeat to db for images. Then carousel for images -->
+            <!-- rating and comments get calls to db -->
+            <!-- ability to add comments -->
+            <!-- use restaurantdb call -->
           </div>
-          <!-- create carousel for images -->
-          <!-- rating and comments calls to db  -->
-          <!-- openMenu api call and mealDb call -->
         </div>
       </div>
 
