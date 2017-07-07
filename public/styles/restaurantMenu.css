@@ -49,3 +49,12 @@ h1, h3, h4, h5 {
   margin-left: .5rem;
   margin-bottom: 2px
 }
+
+.well {
+  margin-top: .5rem;
+}
+
+.well input {
+  width: 90%;
+  margin-bottom: .5rem;
+}

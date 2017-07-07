@@ -30,7 +30,7 @@ router.post('add/:meal/comment', function(req,res) {
   console.log('saving comment:', newComment);
   // save newComment to db
   // exporting model from mongo
-  mealSchema(newComment).save();
+  mealModel(newComment).save();
   res.sendStatus( 201 );
 });
 
@@ -50,8 +50,8 @@ router.post('add/:meal/images', function(req, res) {
   console.log('saving image:', newImage);
   // save newImage to db
   // exporting model from mongo
-  mealModel( newImage ).save();
-  res.sendStatus( 201 );
+  mealModel(newImage).save();
+  res.sendStatus(201);
 });
 
 module.exports = router;

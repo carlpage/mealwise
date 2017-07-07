@@ -34,32 +34,56 @@
 
   <div class="row">
     <h1>{{mc.restaurantName.restaurant_name}}</h1>
-    <h4>{{mc.restaurantName.address_1}}<span>, {{mc.restaurantName.city_town}}, {{mc.restaurantName.state_province}}</span></h4>
+    <h4>{{mc.restaurantName.address_1}}<span><thing ng-if="mc.restaurantName.address_1">,<thing> {{mc.restaurantName.city_town}}<thing ng-if="mc.restaurantName.address_1">,<thing> {{mc.restaurantName.state_province}}</span></h4>
     <div class="col-md-12" id="menu" ng-repeat="menu in mc.menuInfo">
       <h3>{{menu.group_name}}</h3>
       <div class="text-center col-md-6" ng-repeat="items in menu.menu_items track by $index">
         <div class="thumbnail">
+          <!-- Create ng-repeat to db for images here. Then carousel for images -->
           <h4>{{items.menu_item_name}}</h4>
           <h5>{{items.menu_item_description}}</h5>
           <h5>{{items.menu_item_price | currency:'$':2}}</h5>
           <p>Average Rating: </p>
+          <!-- average rating call to db here -->
           <h5></h5>
           <form class="form-inline">
             <div class="form-group">
-              <p>Your rating: <input type="number" ng-model='mc.rating[$index]' step="0.5" min=1 max=5><span><button class="btn btn-default btn-xs" ng-click='mc.ratingPut()'>Add</button></span></p>
+              <p>Your rating: <input type="number" ng-model='mc.rating[$index]' step="0.5" min=1 max=5><span><button class="btn btn-default btn-xs" ng-click='mc.postRating(items)'>Add </button></span></p>
             </div>
           </form>
 
-          <button class="btn btn-primary btn-sm" type="button" data-toggle="collapse" data-target="#collapseComments" aria-expanded="false" aria-controls="collapseComments">View Comments</button>
-          <div class="collapse" id="collapseComments">
+          <button class="btn btn-danger btn-sm" type="button" data-toggle="collapse" data-target="#collapseImages{{$index}}" aria-expanded="false" aria-controls="collapseImages">Add Image <i class="fa fa-picture-o" aria-hidden="true"></i></button>
+          <div class="collapse" id="collapseImages{{$index}}">
 
             <div class="well">
-              ...
+              <div class="addImage">
+                <p></p>
+                <!-- ng-repeat get comments here from restaurants db -->
+              </div>
+              <div id="imageCollapse" class="form-group">
+                <input type="text" id="$index" ng-model='mc.newImage[$index]' placeholder="Image url goes here...">
+                <button class="btn btn-default btn-sm" ng-click='mc.postImage()'>Add Image <i class="fa fa-picture-o" aria-hidden="true"></i></button>
+              </div>
+              <!-- ability to add images use restaurant db call -->
             </div>
-            <!-- Create ng-repeat to db for images. Then carousel for images -->
-            <!-- rating and comments get calls to db -->
-            <!-- ability to add comments -->
-            <!-- use restaurantdb call -->
+
+          </div>
+
+          <button class="btn btn-primary btn-sm" type="button" data-toggle="collapse" data-target="#collapseComments{{$index}}" aria-expanded="false" aria-controls="collapseComments">View Comments <i class="fa fa-comments" aria-hidden="true"></i></button>
+          <div class="collapse" id="collapseComments{{$index}}">
+
+            <div class="well">
+              <div class="comments">
+                <p></p>
+                <!-- ng-repeat get comments here from restaurants db -->
+              </div>
+              <div id="commentCollapse" class="form-group">
+                <input type="text" id="$index" ng-model='mc.newComment[$index]'>
+                <button class="btn btn-default btn-sm" ng-click='mc.postComment()'>Add Comment</button>
+              </div>
+              <!-- ability to add comments use restaurant db call -->
+            </div>
+
           </div>
         </div>
       </div>

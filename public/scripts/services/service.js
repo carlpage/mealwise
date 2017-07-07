@@ -73,14 +73,14 @@ myApp.service('MealService', function($http) {
     });
   } // end openMenuGet
 
-  // sv.postRating = function(ratingObject) {
-  //   return $http({
-  //     method: 'POST',
-  //     url: '/restaurant/add/' + ratingObject.meal + 'rating',
-  //     data: ratingObject
-  //   }).then(function(response) {
-  //     console.log('back from postRating:', response);
-  //   });
-  // }
+  sv.postRating = function(ratingObject) {
+    return $http({
+      method: 'POST',
+      url: '/restaurant/add/' + ratingObject.meal + '/rating',
+      data: ratingObject
+    }).then(function(response) {
+      console.log('back from postRating:', response);
+    });
+  }
 
 });

@@ -1,5 +1,8 @@
 $(document).ready(function() {
   $('collapse').collapse();
+  $('#OpenImgUpload').on('click', function(){ 
+    $('#imgupload').trigger('click');
+  });
 });
 
 var myApp = angular.module('myApp', ['ngRoute']);
@@ -174,15 +177,15 @@ myApp.controller('mealController', function(MealService, $location) {
     });
   }
 
-  // vm.postRating = function() {
-  //   var ratingObject = {
-  //     meal: ,
-  //     rating: vm.rating
-  //   };
-  //   console.log(ratingObject);
-  //   MealService.postRating(ratingObject).then(function() {
-  //     // vm.openMenuGet(); // How would I post a review immediately to the page? Could reload the page and call openMenuGet based on the inputs.
-  //   });
-  // } // end postToShelf
+  vm.postRating = function(item) {
+    var ratingObject = {
+      meal: item.menu_item_name,
+      rating: vm.rating[0]
+    };
+    console.log(ratingObject);
+    MealService.postRating(ratingObject).then(function() {
+      // vm.openMenuGet(); // How would I post a review immediately to the page? Could reload the page and call openMenuGet based on the inputs.
+    });
+  } // end postToShelf
 
 });
