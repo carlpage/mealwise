@@ -17,24 +17,25 @@ var mealModel = mongoose.model('mealModel', mealSchema);
 router.use(bodyParser.urlencoded({extended:true}));
 router.use(bodyParser.json());
 
-// router.get( '/', function( req, res ) {
-//   console.log( 'mealObjects get call' );
-//   mealModel.find().then( function( results ){
-//     res.send( results );
-//   });
-// }); //end meal get call
+router.get('/add/:meal/rating', function(req, res) {
+  console.log('mealObjects get call');
+  console.log(req.body);
+  mealModel.findOne(req.body).then(function(results) {
+    res.send(results);
+  });
+}); //end meal get call
 
-router.post('add/:meal/comment', function(req,res) {
-  console.log('mealObjects url hit', req.body);
-  var newComment = req.body;
-  console.log('saving comment:', newComment);
-  // save newComment to db
-  // exporting model from mongo
-  mealModel(newComment).save();
-  res.sendStatus( 201 );
-});
+// router.post('add/:meal/comment', function(req,res) {
+//   console.log('mealObjects url hit', req.body);
+//   var newComment = req.body;
+//   console.log('saving comment:', newComment);
+//   // save newComment to db
+//   // exporting model from mongo
+//   mealModel(newComment).save();
+//   res.sendStatus( 201 );
+// });
 
-router.post('add/:meal/rating', function(req, res) {
+router.post('/add/:meal/rating', function(req, res) {
   console.log('mealObjects url hit', req.body);
   var newRating = req.body;
   console.log('saving rating:', newRating);
@@ -44,7 +45,7 @@ router.post('add/:meal/rating', function(req, res) {
   res.sendStatus(201);
 });
 
-router.post('add/:meal/images', function(req, res) {
+router.post('/add/:meal/images', function(req, res) {
   console.log('mealObjects url hit', req.body);
   var newImage = req.body;
   console.log('saving image:', newImage);

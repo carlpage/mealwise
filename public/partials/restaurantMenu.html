@@ -38,12 +38,12 @@
     <div class="col-md-12" id="menu" ng-repeat="menu in mc.menuInfo">
       <h3>{{menu.group_name}}</h3>
       <div class="text-center col-md-6" ng-repeat="items in menu.menu_items track by $index">
-        <div class="thumbnail">
+        <div class="thumbnail" ng-init="mc.getRating(items.menu_item_name)">
           <!-- Create ng-repeat to db for images here. Then carousel for images -->
           <h4>{{items.menu_item_name}}</h4>
           <h5>{{items.menu_item_description}}</h5>
           <h5>{{items.menu_item_price | currency:'$':2}}</h5>
-          <p>Average Rating: </p>
+          <p>Average Rating: {{mc.avg}}</p>
           <!-- average rating call to db here -->
           <h5></h5>
           <form class="form-inline">

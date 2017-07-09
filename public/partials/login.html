@@ -20,7 +20,7 @@
   <img src="images/MealWise.png" alt="MealWise Icon">
 </div>
 
-<div class="content">
+<div class="content" ng-controller="storageController as sc">
   <h1>Login</h1>
   <p><strong>Username</strong></p>
   <div class="form-group input-group">
@@ -32,7 +32,7 @@
     <span class="input-group-addon"><i class="fa fa-lock" aria-hidden="true"></i></span>
     <input type="password" class="form-control" placeholder='Password' ng-model='mc.passwordInput'>
   </div>
-  <button class="btn btn-default" ng-click='mc.logIn()'>Get Started!</button>
+  <button class="btn btn-default" ng-click='mc.logIn(); sc.usernameTransfer()'>Get Started!</button>
   <p><a href="#!/registerUser">Create an Account</a></p>
 </div>
 

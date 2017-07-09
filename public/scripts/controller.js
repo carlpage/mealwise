@@ -1,8 +1,5 @@
 $(document).ready(function() {
   $('collapse').collapse();
-  $('#OpenImgUpload').on('click', function(){ 
-    $('#imgupload').trigger('click');
-  });
 });
 
 var myApp = angular.module('myApp', ['ngRoute']);
@@ -71,7 +68,7 @@ myApp.controller('mealController', function(MealService, $location) {
   };
 
   vm.logIn = function() {
-    console.log('clicked log in');
+    console.log('clicked logIn');
     var registerObject = {
       username: vm.nameInput,
       password: vm.passwordInput
@@ -96,6 +93,7 @@ myApp.controller('mealController', function(MealService, $location) {
           })
       } // end else
     }); // end MealService
+
   } // end logIn
 
   vm.register = function() {
@@ -114,6 +112,11 @@ myApp.controller('mealController', function(MealService, $location) {
     vm.nameInput = '';
     vm.passwordInput = '';
   } // end logOut
+
+  vm.usernameGet = function() {
+    console.log(MealService.ul[0]);
+    vm.user = MealService.ul[0];
+  }
 
   vm.openMenuGet = function() {
     var searchObject = {
@@ -177,10 +180,21 @@ myApp.controller('mealController', function(MealService, $location) {
     });
   }
 
+  vm.getRating = function(item) {
+    console.log('Getting the average rating for:', item);
+    MealService.getRating(item).then(function() {
+      vm.avg = MealService.data;
+      console.log('back in controller with:', vm.avg);
+    });
+  } // end getRating
+
   vm.postRating = function(item) {
+    var values = Object.values(vm.rating);
+    var last = values.slice(-1)[0];
+    console.log(last);
     var ratingObject = {
       meal: item.menu_item_name,
-      rating: vm.rating[0]
+      rating: last
     };
     console.log(ratingObject);
     MealService.postRating(ratingObject).then(function() {

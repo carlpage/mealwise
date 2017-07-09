@@ -1,5 +1,6 @@
 myApp.service('MealService', function($http) {
   var sv = this;
+  var usernameList = [];
   var storageList = [];
   var openMenuToken = '8c3043ce-5bb0-11e7-8837-00163eeae34c';
 
@@ -23,6 +24,18 @@ myApp.service('MealService', function($http) {
       console.log('back from register attempt:', response);
     });
   } // end register
+
+  sv.addUsername = function(username) {
+    console.log(usernameList);
+    sv.ul = usernameList;
+    return usernameList.unshift(username);
+  };
+
+  sv.getUsername = function() {
+    console.log(usernameList);
+    sv.ul = usernameList;
+    return sv.ul;
+  };
 
   sv.addRequest = function(storageObject) {
     console.log(storageList);
@@ -73,10 +86,20 @@ myApp.service('MealService', function($http) {
     });
   } // end openMenuGet
 
+  sv.getRating = function(item) {
+    return $http({
+      method: 'GET',
+      url: '/restaurants/add/' + item + '/rating'
+    }).then(function(response) {
+      console.log('back from getRating:', response.data);
+      sv.data = response.data;
+    }); // find the average rating
+  }
+
   sv.postRating = function(ratingObject) {
     return $http({
       method: 'POST',
-      url: '/restaurant/add/' + ratingObject.meal + '/rating',
+      url: '/restaurants/add/' + ratingObject.meal + '/rating',
       data: ratingObject
     }).then(function(response) {
       console.log('back from postRating:', response);
