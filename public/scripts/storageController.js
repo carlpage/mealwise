@@ -7,12 +7,12 @@ myApp.controller('storageController', function(MealService, $location) {
     $location.url(path);
   };
 
-  vm.usernameTransfer = function() {
-    console.log('in usernameTransfer');
-    var username = vm.nameInput;
-    console.log(username);
-    MealService.addUsername(username);
-  };
+  // vm.usernameTransfer = function() {
+  //   console.log('in usernameTransfer');
+  //   var username = vm.nameInput;
+  //   console.log(username);
+  //   MealService.addUsername(username);
+  // };
 
   vm.dataTransfer = function() {
     console.log('in dataTransfer');

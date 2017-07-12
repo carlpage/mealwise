@@ -1,6 +1,6 @@
 myApp.service('MealService', function($http) {
   var sv = this;
-  var usernameList = [];
+  // var usernameList = [];
   var storageList = [];
   var openMenuToken = '8c3043ce-5bb0-11e7-8837-00163eeae34c';
 
@@ -25,17 +25,17 @@ myApp.service('MealService', function($http) {
     });
   } // end register
 
-  sv.addUsername = function(username) {
-    console.log(usernameList);
-    sv.ul = usernameList;
-    return usernameList.unshift(username);
-  };
-
-  sv.getUsername = function() {
-    console.log(usernameList);
-    sv.ul = usernameList;
-    return sv.ul;
-  };
+  // sv.addUsername = function(username) {
+  //   console.log(usernameList);
+  //   sv.ul = usernameList;
+  //   return usernameList.unshift(username);
+  // };
+  //
+  // sv.getUsername = function() {
+  //   console.log(usernameList);
+  //   sv.ul = usernameList;
+  //   return sv.ul;
+  // };
 
   sv.addRequest = function(storageObject) {
     console.log(storageList);
@@ -92,17 +92,57 @@ myApp.service('MealService', function($http) {
       url: '/restaurants/add/' + item + '/rating'
     }).then(function(response) {
       console.log('back from getRating:', response.data);
-      sv.data = response.data;
+      sv.ratingData = response.data;
     }); // find the average rating
   }
 
   sv.postRating = function(ratingObject) {
     return $http({
       method: 'POST',
-      url: '/restaurants/add/' + ratingObject.meal + '/rating',
+      url: '/restaurants/add/' + ratingObject + '/rating',
       data: ratingObject
     }).then(function(response) {
       console.log('back from postRating:', response);
+    });
+  }
+
+  sv.getComments = function(item) {
+    return $http({
+      method: 'GET',
+      url: '/restaurants/add/' + item + '/comments'
+    }).then(function(response) {
+      // console.log('back from getComments:', response.data);
+      sv.commentData = response.data;
+    }); // find the average rating
+  }
+
+  sv.postComment = function(commentObject) {
+    return $http({
+      method: 'POST',
+      url: '/restaurants/add/' + commentObject + '/comments',
+      data: commentObject
+    }).then(function(response) {
+      console.log('back from postComment:', response);
+    });
+  }
+
+  sv.getImages = function(item) {
+    return $http({
+      method: 'GET',
+      url: '/restaurants/add/' + item + '/images'
+    }).then(function(response) {
+      console.log('back from getImages:', response.data);
+      sv.imageData = response.data;
+    }); // find the average rating
+  }
+
+  sv.postImage = function(imageObject) {
+    return $http({
+      method: 'POST',
+      url: '/restaurants/add/' + imageObject + '/images',
+      data: imageObject
+    }).then(function(response) {
+      console.log('back from postImage:', response);
     });
   }
 

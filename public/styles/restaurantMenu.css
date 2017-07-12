@@ -45,6 +45,20 @@ h1, h3, h4, h5 {
   height: auto;
 }
 
+#image {
+  height: 294px;
+  display: block;
+  margin: 0 auto;
+}
+
+#imageCollapse {
+  text-align: center;
+}
+
+#imageCollapse input {
+  margin-top: 10px;
+}
+
 .btn-xs {
   margin-left: .5rem;
   margin-bottom: 2px
@@ -57,4 +71,69 @@ h1, h3, h4, h5 {
 .well input {
   width: 90%;
   margin-bottom: .5rem;
+}
+
+.comments {
+  padding-top: 7px;
+  padding-bottom: 7px;
+  border-top: 1px solid gray;
+  border-bottom: 1px solid gray;
+}
+
+#commentCollapse input {
+  margin-top: 7px;
+}
+
+.commentBox {
+  padding: 10px;
+  border-top: 1px dotted #bbb;
+}
+
+.commentBox .form-group:first-child, .actionBox .form-group:first-child {
+  width: 80%;
+}
+
+.commentBox .form-group:nth-child(2), .actionBox .form-group:nth-child(2) {
+  width: 18%;
+}
+
+.actionBox .form-group * {
+  width: 100%;
+}
+
+.taskDescription {
+  margin-top: 10px 0;
+}
+
+.commentList {
+  padding-bottom: 5px;
+  list-style: none;
+  max-height: 200px;
+  overflow: auto;
+  text-align: center;
+  border-bottom: 1px dotted #ccc;
+}
+
+.commentList li {
+  margin: 0;
+  margin-top: 10px;
+}
+
+.commentList li>div {
+  display: table-cell;
+}
+
+.commentText p {
+  font-size: 1.5rem;
+}
+
+.sub-text {
+  color: #aaa;
+  font-family: verdana;
+  font-size: 11px;
+}
+
+.actionBox {
+  border-top: 1px dotted #bbb;
+  padding: 10px;
 }

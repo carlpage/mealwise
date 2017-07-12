@@ -2,7 +2,7 @@ $(document).ready(function() {
   $('collapse').collapse();
 });
 
-var myApp = angular.module('myApp', ['ngRoute']);
+var myApp = angular.module('myApp', ['ngRoute', 'ui.bootstrap']);
 
 myApp.directive('head', ['$rootScope', '$compile',
   function($rootScope, $compile) {
@@ -56,16 +56,34 @@ myApp.config(['$routeProvider', function($routeProvider) {
     templateUrl: "partials/restaurantMenu.html",
     controller: "mealController as mc",
     css: "styles/restaurantMenu.css",
+  }).when('/carouselTest', {
+    templateUrl: "partials/carouselTest.html",
+    controller: "mealController as mc",
+    css: "styles/restaurantMenu.css",
   });
 }]);
 
 myApp.controller('mealController', function(MealService, $location) {
   console.log('in the controller');
   var vm = this;
+  vm.myInterval = 5000;
+  var menuArray = [];
 
   vm.go = function(path) {
     $location.url(path);
   };
+
+  vm.menuPush = function(info) {
+    var arr = [];
+    for (var i = 0; i < info.length; i++) {
+      for (var j = 0; j < info[i].menu_items.length; j++) {
+        arr.push(info[i].menu_items[j].menu_item_name);
+      }
+      j = 0;
+    }
+    // console.log('-------------=======', arr);
+    return menuArray.push(arr);
+  }
 
   vm.logIn = function() {
     console.log('clicked logIn');
@@ -113,10 +131,10 @@ myApp.controller('mealController', function(MealService, $location) {
     vm.passwordInput = '';
   } // end logOut
 
-  vm.usernameGet = function() {
-    console.log(MealService.ul[0]);
-    vm.user = MealService.ul[0];
-  }
+  // vm.usernameGet = function() {
+  //   console.log(MealService.ul[0]);
+  //   vm.user = MealService.ul[0];
+  // }
 
   vm.openMenuGet = function() {
     var searchObject = {
@@ -145,6 +163,7 @@ myApp.controller('mealController', function(MealService, $location) {
           vm.restaurantName = response.response.result.restaurant_info;
           vm.menuInfo = response.response.result.menus[0].menu_groups;
           console.log('back in restaurantGet with: ', vm.menuInfo);
+          vm.menuPush(vm.menuInfo);
         });
       }
     });
@@ -181,10 +200,24 @@ myApp.controller('mealController', function(MealService, $location) {
   }
 
   vm.getRating = function(item) {
-    console.log('Getting the average rating for:', item);
-    MealService.getRating(item).then(function() {
-      vm.avg = MealService.data;
-      console.log('back in controller with:', vm.avg);
+    // console.log('Getting the average rating for:', item.menu_item_name);
+    MealService.getRating(item.menu_item_name).then(function() {
+      vm.ratings = MealService.ratingData;
+      // push the ratings into an array
+      var menuItem = item.menu_item_name;
+      var arr = [];
+      var total = 0;
+      for (var i = 0; i < vm.ratings.length; i++) {
+        arr.push(vm.ratings[i].rating);
+      }
+      for (var i = 0; i < arr.length; i++) {
+        total += arr[i];
+      }
+      // average the array items
+      var average = total / arr.length;
+      item.length = vm.ratings.length
+      item.avg = average.toFixed(1);
+      console.log('back in controller with avg rating for:', menuItem, item.avg, item.length);
     });
   } // end getRating
 
@@ -193,6 +226,7 @@ myApp.controller('mealController', function(MealService, $location) {
     var last = values.slice(-1)[0];
     console.log(last);
     var ratingObject = {
+      restaurant: vm.restaurantName.restaurant_name,
       meal: item.menu_item_name,
       rating: last
     };
@@ -200,6 +234,50 @@ myApp.controller('mealController', function(MealService, $location) {
     MealService.postRating(ratingObject).then(function() {
       // vm.openMenuGet(); // How would I post a review immediately to the page? Could reload the page and call openMenuGet based on the inputs.
     });
-  } // end postToShelf
+  } // end postRating
+
+  vm.postComment = function(item) {
+    var values = Object.values(vm.newComment);
+    var comment = values.slice(-1)[0];
+    console.log(comment);
+    var commentObject = {
+      restaurant: vm.restaurantName.restaurant_name,
+      meal: item.menu_item_name,
+      comment: comment
+    };
+    MealService.postComment(commentObject).then(function() {
+      // vm.openMenuGet(); // How would I post a review immediately to the page? Could reload the page and call openMenuGet based on the inputs.
+    });
+  } // end postComment
+
+  vm.getComments = function(item) {
+    // console.log('Getting the comment(s) for:', item.menu_item_name);
+    MealService.getComments(item.menu_item_name).then(function() {
+      vm.comments = MealService.commentData;
+      // console.log('back in controller with comments for:', item.menu_item_name, vm.comments);
+    });
+  } // end getRating
+
+  vm.postImage = function(item) {
+    var values = Object.values(vm.newImage);
+    var image = values.slice(-1)[0];
+    console.log(image);
+    var imageObject = {
+      restaurant: vm.restaurantName.restaurant_name,
+      meal: item.menu_item_name,
+      image: image
+    };
+    MealService.postImage(imageObject).then(function() {
+      // vm.openMenuGet(); // How would I post a review immediately to the page? Could reload the page and call openMenuGet based on the inputs.
+    });
+  } // end postComment
+
+  vm.getImages = function(item) {
+    console.log('Getting the image for:', item.menu_item_name);
+    MealService.getImages(item.menu_item_name).then(function() {
+      vm.images = MealService.imageData;
+      console.log('back in controller with images for:', item.menu_item_name, vm.images);
+    });
+  } // end getImages
 
 });

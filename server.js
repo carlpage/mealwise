@@ -15,6 +15,6 @@ app.use('/restaurants', meals);
 var port = process.env.PORT || 8765;
 
 // spin up server
-app.listen(port, function(){
+app.listen(port, function() {
   console.log('server up on:', port);
 }); // end spin up
