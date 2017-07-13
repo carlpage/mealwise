@@ -17,6 +17,22 @@ body {
   padding-top: 4px;
 }
 
+#mapButton {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+#map {
+  height: 300px;
+  width: 55%;
+  margin: 0 auto;
+}
+
+#spinner {
+  margin-left: 30%;
+  margin-top: 10%;
+}
+
 #topForm {
   text-align: center;
   margin: 0 auto;

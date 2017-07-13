@@ -68,10 +68,32 @@ myApp.controller('mealController', function(MealService, $location) {
   var vm = this;
   vm.myInterval = 5000;
   var menuArray = [];
+  vm.somePlaceholder = 'Post your comment here...';
+  vm.spinner = false;
+  vm.isCollapsed = true;
+  vm.mapButton = true;
 
   vm.go = function(path) {
     $location.url(path);
   };
+
+  // google maps
+  vm.initMap = function(name) {
+    var coords = {
+      lat: Number(name.latitude),
+      lng: Number(name.longitude)
+    };
+    console.log(coords);
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 13,
+      center: coords
+    });
+    var marker = new google.maps.Marker({
+      position: coords,
+      map: map
+    });
+  }
+  //end google maps
 
   vm.menuPush = function(info) {
     var arr = [];
@@ -84,6 +106,21 @@ myApp.controller('mealController', function(MealService, $location) {
     // console.log('-------------=======', arr);
     return menuArray.push(arr);
   }
+
+  // vm.totalItems = 64;
+  // vm.currentPage = 4;
+  //
+  // vm.setPage = function (pageNo) {
+  //   vm.currentPage = pageNo;
+  // };
+  //
+  // vm.pageChanged = function() {
+  //   $log.log('Page changed to: ' + vm.currentPage);
+  // };
+  //
+  // vm.maxSize = 5;
+  // vm.bigTotalItems = 175;
+  // vm.bigCurrentPage = 1;
 
   vm.logIn = function() {
     console.log('clicked logIn');
@@ -142,6 +179,7 @@ myApp.controller('mealController', function(MealService, $location) {
       city: vm.cityInput
     }
     MealService.openMenuGet(searchObject).then(function(response) {
+      vm.spinner = true;
       if (response.response.result.errors) {
         swal({
           type: 'error',
@@ -163,6 +201,9 @@ myApp.controller('mealController', function(MealService, $location) {
           vm.restaurantName = response.response.result.restaurant_info;
           vm.menuInfo = response.response.result.menus[0].menu_groups;
           console.log('back in restaurantGet with: ', vm.menuInfo);
+          vm.spinner = false;
+          vm.mapButton = false;
+          vm.initMap(vm.restaurantName);
           vm.menuPush(vm.menuInfo);
         });
       }
@@ -171,6 +212,7 @@ myApp.controller('mealController', function(MealService, $location) {
 
   vm.menuRequest = function() {
     console.log(MealService.sl[0]);
+    vm.spinner = true;
     var obj = MealService.sl[0];
     MealService.openMenuGet(obj).then(function(response) {
       if (response.response.result.errors) {
@@ -193,7 +235,10 @@ myApp.controller('mealController', function(MealService, $location) {
         MealService.restaurantGet(vm.id).then(function(response) {
           vm.restaurantName = response.response.result.restaurant_info;
           vm.menuInfo = response.response.result.menus[0].menu_groups;
+          vm.mapButton = false;
+          vm.initMap(vm.restaurantName);
           console.log('back in restaurantGet with: ', vm.menuInfo);
+          vm.spinner = false;
         });
       }
     });
@@ -237,24 +282,20 @@ myApp.controller('mealController', function(MealService, $location) {
   } // end postRating
 
   vm.postComment = function(item) {
-    var values = Object.values(vm.newComment);
-    var comment = values.slice(-1)[0];
-    console.log(comment);
     var commentObject = {
       restaurant: vm.restaurantName.restaurant_name,
       meal: item.menu_item_name,
-      comment: comment
+      comment: vm.newComment
     };
     MealService.postComment(commentObject).then(function() {
-      // vm.openMenuGet(); // How would I post a review immediately to the page? Could reload the page and call openMenuGet based on the inputs.
+      vm.newComment = '';
+      vm.somePlaceholder = 'Your comment has been posted!';
     });
   } // end postComment
 
   vm.getComments = function(item) {
-    // console.log('Getting the comment(s) for:', item.menu_item_name);
     MealService.getComments(item.menu_item_name).then(function() {
       vm.comments = MealService.commentData;
-      // console.log('back in controller with comments for:', item.menu_item_name, vm.comments);
     });
   } // end getRating
 

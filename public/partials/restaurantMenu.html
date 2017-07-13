@@ -32,9 +32,19 @@
 
 <div class="container" ng-init="mc.menuRequest()">
 
+  <img ng-if="mc.spinner === true" id="spinner" class="img-responsive" ng-model="mc.spinner" src="https://cdn.dribbble.com/users/645440/screenshots/3266490/loader-2_food.gif" alt="Spinner">
+
   <div class="row">
     <h1>{{mc.restaurantName.restaurant_name}}</h1>
     <h4>{{mc.restaurantName.address_1}}<span><thing ng-if="mc.restaurantName.address_1">,<thing> {{mc.restaurantName.city_town}}<thing ng-if="mc.restaurantName.address_1">,<thing> {{mc.restaurantName.state_province}}</span></h4>
+
+    <!-- google map collapse -->
+    <button class="btn btn-default center-block" ng-hide="mc.mapButton" ng-model="mc.mapButton" id="mapButton" ng-click="isCollapsed = !isCollapsed;"><thing ng-if="isCollapsed === false">Hide </thing><thing ng-if="isCollapsed === true">Show </thing>Location <i class="fa fa-map-marker" aria-hidden="true"></i></button>
+    <div collapse="isCollapsed">
+      <div id="map"></div>
+    </div>
+
+    <!-- <div> -->
     <div class="col-md-12" id="menu" ng-repeat="menu in mc.menuInfo">
       <h3>{{menu.group_name}}</h3>
       <div class="text-center col-md-6" ng-repeat="items in menu.menu_items track by $index" ng-init="mc.getRating(items)">
@@ -46,13 +56,12 @@
           <p>
             <thing ng-if="items.avg > 0">Average Rating: {{items.avg}}
               <thing ng-if="items.length > 0">out of {{items.length}}
-                <thing ng-if="items.length===1">rating</thing>
+                <thing ng-if="items.length === 1">rating</thing>
                 <thing ng-if="items.length > 1">ratings</thing>
               </thing>
             </thing>
           </p>
           <!-- average rating call to db here -->
-          <h5></h5>
           <form class="form-inline">
             <div class="form-group">
               <p>Your rating: <input type="number" ng-model='mc.rating[$index]' step="0.5" min=1 max=5><span><button class="btn btn-default btn-xs" ng-click='mc.postRating(items)'>Add </button></span></p>
@@ -68,12 +77,13 @@
 
                 <carousel ng-if="mc.images.length > 0" interval="myInterval" style="height: 305px">
                   <slide ng-repeat="image in mc.images" active="slide.active">
-                    <img id="image" ng-src="{{image.image}}">
+                    <img id="image" ng-src="{{image.image}}" width="100%">
                   </slide>
                 </carousel>
 
                 <div id="imageCollapse" class="form-group">
                   <input type="text" id="$index" ng-model='mc.newImage[$index]' placeholder="Image url goes here...">
+                  <input type="file" name="file" />
                   <button class="btn btn-default btn-sm" ng-click='mc.postImage(items)'>Add Image <i class="fa fa-picture-o" aria-hidden="true"></i></button>
                 </div>
                 <!-- ability to add images use restaurant db call -->
@@ -96,7 +106,7 @@
                   </ul>
                   <form class="form-inline" role="form">
                     <div class="form-group">
-                      <input class="form-control" ng-model="mc.newComment" id="$index" type="text" placeholder="Post a comment..." />
+                      <input class="form-control" ng-model="mc.newComment" id="$index" type="text" placeholder="{{mc.somePlaceholder}}" />
                     </div>
                     <div class="form-group">
                       <button class="btn btn-default" ng-click='mc.postComment(items)'>Add</button>
@@ -111,11 +121,16 @@
           <!-- end data-parent -->
         </div>
       </div>
-
+      <!-- <pagination total-items="menuArray.length" items-per-page="items.length" ng-model="currentPage" class="pagination-sm"></pagination> -->
     </div>
+    <!-- </div> -->
   </div>
 
 </div>
+
+<!-- <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAU6kZG1X1QVzGC0xjEbJACzPaZ-yl3afo&callback=initMap">
+</script> -->
 
 <div class="navbar navbar-fixed-bottom">
   <p>powered by: <a href="http://openmenu.com" target="blank"><img height="25" width="120" src="https://openmenu.com/images/openmenu-250-49.png" alt="Powered by OpenMenu" /></a></p>
