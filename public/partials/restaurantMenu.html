@@ -42,9 +42,10 @@
     <button class="btn btn-default center-block" ng-hide="mc.mapButton" ng-model="mc.mapButton" id="mapButton" ng-click="isCollapsed = !isCollapsed; toggle = !toggle"><span ng-show="toggle">Show Location</span><span ng-hide="toggle">Hide location</span> <i class="fa fa-map-marker" aria-hidden="true"></i></button>
 
     <div collapse="isCollapsed">
-      <div id="map"></div>
+      <div id="map" ng-hide="mc.mapToggle" ng-model="mc.mapToggle" ></div>
     </div>
     <!-- pagination at top of page, appears on page load -->
+
     <pagination ng-hide="mc.pagination" ng-model="mc.pagination" page="currentPage" max-size="mc.menuInfo" total-items="items.length" items-per-page="items.length" ng-model="currentPage" class="pagination-sm"></pagination>
     <!-- menu info -->
     <div class="col-md-12" id="menu" ng-repeat="menu in mc.menuInfo">
@@ -65,6 +66,7 @@
             </thing>
           </p>
           <!-- average rating call to db here -->
+
           <form class="form-inline">
             <div class="form-group">
               <p>Your rating: <input type="number" ng-model='mc.rating[items.id]' step="0.5" min=1 max=5><span><button class="btn btn-default btn-xs" ng-click='mc.postRating(items)'>Add </button></span></p>

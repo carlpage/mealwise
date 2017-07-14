@@ -178,6 +178,11 @@ myApp.controller('mealController', function(MealService, $location) {
       name: vm.nameInput,
       city: vm.cityInput
     }
+    vm.menuInfo = [];
+    vm.restaurantName = [];
+    vm.mapButton = true;
+    vm.pagination = true;
+    vm.mapToggle = true;
     MealService.openMenuGet(searchObject).then(function(response) {
       vm.spinner = true; // hell yeah show that loader thingy
       if (response.response.result.errors) { //sweet alert if restaurant isn't found
@@ -204,7 +209,8 @@ myApp.controller('mealController', function(MealService, $location) {
           vm.spinner = false;
           vm.mapButton = false;
           vm.pagination = false;
-          var c =  0;
+          vm.mapToggle = false;
+          var c = 0;
           for (var a = 0; a < vm.menuInfo.length; a++) {
             c++
             for (var b = 0; b < vm.menuInfo[a].menu_items.length; b++) {
@@ -247,12 +253,12 @@ myApp.controller('mealController', function(MealService, $location) {
           vm.mapButton = false;
           vm.pagination = false;
           vm.initMap(vm.restaurantName);
-          var k =  0;
+          var k = 0;
           for (var i = 0; i < vm.menuInfo.length; i++) {
             k++
             for (var j = 0; j < vm.menuInfo[i].menu_items.length; j++) {
               k++
-              vm.menuInfo[i].menu_items[j].id =k;
+              vm.menuInfo[i].menu_items[j].id = k;
             }
           }
           console.log('back in restaurantGet with: ', vm.menuInfo);
