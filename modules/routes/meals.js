@@ -22,7 +22,6 @@ var commentSchema = new mongoose.Schema({
   comments: String
 });
 
-// get rating and imageUrl working first, and then comments
 var ratingModel = mongoose.model('ratingModel', ratingSchema);
 var imageModel = mongoose.model('imageModel', imageSchema);
 var commentModel = mongoose.model('commentModel', commentSchema);

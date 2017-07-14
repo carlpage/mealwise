@@ -1,7 +1,3 @@
-$(document).ready(function() {
-  $('collapse').collapse();
-});
-
 var myApp = angular.module('myApp', ['ngRoute', 'ui.bootstrap']);
 
 myApp.directive('head', ['$rootScope', '$compile',
@@ -33,7 +29,7 @@ myApp.directive('head', ['$rootScope', '$compile',
       }
     };
   }
-]);
+]); // to switch out style sheets accordingly between routes
 
 myApp.config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/', {
@@ -66,12 +62,13 @@ myApp.config(['$routeProvider', function($routeProvider) {
 myApp.controller('mealController', function(MealService, $location) {
   console.log('in the controller');
   var vm = this;
-  vm.myInterval = 5000;
-  var menuArray = [];
-  vm.somePlaceholder = 'Post your comment here...';
-  vm.spinner = false;
-  vm.isCollapsed = true;
-  vm.mapButton = true;
+  var menuArray = []; // gets filled with entire menu
+  vm.somePlaceholder = 'Post your comment here...'; // for comments placeholder
+  vm.spinner = false; // for loading screen
+  vm.isCollapsed = true; // google maps boolean
+  vm.mapButton = true; //for google maps collapse
+  vm.pagination = true; // pagination hide boolean
+  vm.text = 'Hide Location';
 
   vm.go = function(path) {
     $location.url(path);
@@ -93,7 +90,11 @@ myApp.controller('mealController', function(MealService, $location) {
       map: map
     });
   }
-  //end google maps
+  // end google maps
+
+  vm.changeBtnText = function() {
+    vm.text = 'Show Location';
+  }
 
   vm.menuPush = function(info) {
     var arr = [];
@@ -105,11 +106,10 @@ myApp.controller('mealController', function(MealService, $location) {
     }
     // console.log('-------------=======', arr);
     return menuArray.push(arr);
-  }
+  } // meh, turns out I didn't really need to do this
 
-  // vm.totalItems = 64;
-  // vm.currentPage = 4;
-  //
+  vm.currentPage = 4;
+
   // vm.setPage = function (pageNo) {
   //   vm.currentPage = pageNo;
   // };
@@ -179,8 +179,8 @@ myApp.controller('mealController', function(MealService, $location) {
       city: vm.cityInput
     }
     MealService.openMenuGet(searchObject).then(function(response) {
-      vm.spinner = true;
-      if (response.response.result.errors) {
+      vm.spinner = true; // hell yeah show that loader thingy
+      if (response.response.result.errors) { //sweet alert if restaurant isn't found
         swal({
           type: 'error',
           title: 'Nope!',
@@ -203,6 +203,15 @@ myApp.controller('mealController', function(MealService, $location) {
           console.log('back in restaurantGet with: ', vm.menuInfo);
           vm.spinner = false;
           vm.mapButton = false;
+          vm.pagination = false;
+          var c =  0;
+          for (var a = 0; a < vm.menuInfo.length; a++) {
+            c++
+            for (var b = 0; b < vm.menuInfo[a].menu_items.length; b++) {
+              c++
+              vm.menuInfo[a].menu_items[b].id = c;
+            }
+          }
           vm.initMap(vm.restaurantName);
           vm.menuPush(vm.menuInfo);
         });
@@ -236,7 +245,16 @@ myApp.controller('mealController', function(MealService, $location) {
           vm.restaurantName = response.response.result.restaurant_info;
           vm.menuInfo = response.response.result.menus[0].menu_groups;
           vm.mapButton = false;
+          vm.pagination = false;
           vm.initMap(vm.restaurantName);
+          var k =  0;
+          for (var i = 0; i < vm.menuInfo.length; i++) {
+            k++
+            for (var j = 0; j < vm.menuInfo[i].menu_items.length; j++) {
+              k++
+              vm.menuInfo[i].menu_items[j].id =k;
+            }
+          }
           console.log('back in restaurantGet with: ', vm.menuInfo);
           vm.spinner = false;
         });
@@ -277,7 +295,18 @@ myApp.controller('mealController', function(MealService, $location) {
     };
     console.log(ratingObject);
     MealService.postRating(ratingObject).then(function() {
-      // vm.openMenuGet(); // How would I post a review immediately to the page? Could reload the page and call openMenuGet based on the inputs.
+      swal({
+        type: 'success',
+        title: 'Rating added!',
+        timer: 2000
+      }).then(
+        function() {},
+        // handling the promise rejection
+        function(dismiss) {
+          if (dismiss === 'timer') {
+            console.log('I was closed by the timer');
+          }
+        })
     });
   } // end postRating
 
@@ -288,6 +317,18 @@ myApp.controller('mealController', function(MealService, $location) {
       comment: vm.newComment
     };
     MealService.postComment(commentObject).then(function() {
+      swal({
+        type: 'success',
+        title: 'Comment added!',
+        timer: 2000
+      }).then(
+        function() {},
+        // handling the promise rejection
+        function(dismiss) {
+          if (dismiss === 'timer') {
+            console.log('I was closed by the timer');
+          }
+        })
       vm.newComment = '';
       vm.somePlaceholder = 'Your comment has been posted!';
     });
@@ -309,6 +350,18 @@ myApp.controller('mealController', function(MealService, $location) {
       image: image
     };
     MealService.postImage(imageObject).then(function() {
+      swal({
+        type: 'success',
+        title: 'Image added!',
+        timer: 2000
+      }).then(
+        function() {},
+        // handling the promise rejection
+        function(dismiss) {
+          if (dismiss === 'timer') {
+            console.log('I was closed by the timer');
+          }
+        })
       // vm.openMenuGet(); // How would I post a review immediately to the page? Could reload the page and call openMenuGet based on the inputs.
     });
   } // end postComment

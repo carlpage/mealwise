@@ -18,6 +18,7 @@
   </div>
 </nav>
 
+<!-- search bar -->
 <form class="form-inline" id="topForm">
   <img src="images/MealWise.png" alt="MealWise Icon">
   <div class="form-group">
@@ -28,32 +29,34 @@
   </div>
   <button class="btn btn-default" ng-click='mc.openMenuGet()'>Search! <i class="fa fa-search" aria-hidden="true"></i></button>
 </form>
-<!-- testing -->
-
+<!-- menu container -->
 <div class="container" ng-init="mc.menuRequest()">
-
-  <img ng-if="mc.spinner === true" id="spinner" class="img-responsive" ng-model="mc.spinner" src="https://cdn.dribbble.com/users/645440/screenshots/3266490/loader-2_food.gif" alt="Spinner">
+  <!-- loading image -->
+  <img ng-if="mc.spinner === true" id="spinner" class="img-responsive center-block" ng-model="mc.spinner" src="https://cdn.dribbble.com/users/645440/screenshots/3266490/loader-2_food.gif" alt="Spinner">
 
   <div class="row">
     <h1>{{mc.restaurantName.restaurant_name}}</h1>
     <h4>{{mc.restaurantName.address_1}}<span><thing ng-if="mc.restaurantName.address_1">,<thing> {{mc.restaurantName.city_town}}<thing ng-if="mc.restaurantName.address_1">,<thing> {{mc.restaurantName.state_province}}</span></h4>
 
     <!-- google map collapse -->
-    <button class="btn btn-default center-block" ng-hide="mc.mapButton" ng-model="mc.mapButton" id="mapButton" ng-click="isCollapsed = !isCollapsed;"><thing ng-if="isCollapsed === false">Hide </thing><thing ng-if="isCollapsed === true">Show </thing>Location <i class="fa fa-map-marker" aria-hidden="true"></i></button>
+    <button class="btn btn-default center-block" ng-hide="mc.mapButton" ng-model="mc.mapButton" id="mapButton" ng-click="isCollapsed = !isCollapsed; toggle = !toggle"><span ng-show="toggle">Show Location</span><span ng-hide="toggle">Hide location</span> <i class="fa fa-map-marker" aria-hidden="true"></i></button>
+
     <div collapse="isCollapsed">
       <div id="map"></div>
     </div>
-
-    <!-- <div> -->
+    <!-- pagination at top of page, appears on page load -->
+    <pagination ng-hide="mc.pagination" ng-model="mc.pagination" page="currentPage" max-size="mc.menuInfo" total-items="items.length" items-per-page="items.length" ng-model="currentPage" class="pagination-sm"></pagination>
+    <!-- menu info -->
     <div class="col-md-12" id="menu" ng-repeat="menu in mc.menuInfo">
       <h3>{{menu.group_name}}</h3>
       <div class="text-center col-md-6" ng-repeat="items in menu.menu_items track by $index" ng-init="mc.getRating(items)">
         <div class="thumbnail">
-          <!-- Create ng-repeat to db for images here. Then carousel for images -->
+          <!-- repeated meals -->
           <h4>{{items.menu_item_name}}</h4>
           <h5>{{items.menu_item_description}}</h5>
           <h5>{{items.menu_item_price | currency:'$':2}}</h5>
           <p>
+            <!-- avg rating -->
             <thing ng-if="items.avg > 0">Average Rating: {{items.avg}}
               <thing ng-if="items.length > 0">out of {{items.length}}
                 <thing ng-if="items.length === 1">rating</thing>
@@ -64,25 +67,25 @@
           <!-- average rating call to db here -->
           <form class="form-inline">
             <div class="form-group">
-              <p>Your rating: <input type="number" ng-model='mc.rating[$index]' step="0.5" min=1 max=5><span><button class="btn btn-default btn-xs" ng-click='mc.postRating(items)'>Add </button></span></p>
+              <p>Your rating: <input type="number" ng-model='mc.rating[items.id]' step="0.5" min=1 max=5><span><button class="btn btn-default btn-xs" ng-click='mc.postRating(items)'>Add </button></span></p>
             </div>
           </form>
 
           <div id="buttonGroup">
-
-            <button class="btn btn-danger btn-sm" ng-click="mc.getImages(items)" type="button" data-toggle="collapse" data-target="#collapseImages{{$index}}" data-parent="#button-group" aria-expanded="false" aria-controls="collapseImages">Add/ View Images <i class="fa fa-picture-o" aria-hidden="true"></i></button>
-            <div class="collapse" id="collapseImages{{$index}}">
+            <!-- collapse images -->
+            <button class="btn btn-danger btn-sm" ng-click="mc.getImages(items)" type="button" data-toggle="collapse" data-target="#collapseImages{{items.id}}" data-parent="#button-group" aria-expanded="false" aria-controls="collapseImages">Add/ View Images <i class="fa fa-picture-o" aria-hidden="true"></i></button>
+            <div class="collapse" id="collapseImages{{items.id}}">
 
               <div class="well">
-
-                <carousel ng-if="mc.images.length > 0" interval="myInterval" style="height: 305px">
+                <!-- carousel for meals -->
+                <carousel ng-if="mc.images.length > 0" style="height: 305px">
                   <slide ng-repeat="image in mc.images" active="slide.active">
                     <img id="image" ng-src="{{image.image}}" width="100%">
                   </slide>
                 </carousel>
 
                 <div id="imageCollapse" class="form-group">
-                  <input type="text" id="$index" ng-model='mc.newImage[$index]' placeholder="Image url goes here...">
+                  <input type="text" id="items.id" ng-model='mc.newImage[items.id]' placeholder="Image url goes here...">
                   <input type="file" name="file" />
                   <button class="btn btn-default btn-sm" ng-click='mc.postImage(items)'>Add Image <i class="fa fa-picture-o" aria-hidden="true"></i></button>
                 </div>
@@ -91,9 +94,9 @@
               </div>
 
             </div>
-
-            <button class="btn btn-primary btn-sm" ng-click='mc.getComments(items)' type="button" data-toggle="collapse" data-target="#collapseComments{{$index}}" data-parent="#button-group" aria-expanded="false" aria-controls="collapseComments">View Comments <i class="fa fa-comments" aria-hidden="true"></i></button>
-            <div class="collapse" id="collapseComments{{$index}}">
+            <!-- collapse comments -->
+            <button class="btn btn-primary btn-sm" ng-click='mc.getComments(items)' type="button" data-toggle="collapse" data-target="#collapseComments{{items.id}}" data-parent="#button-group" aria-expanded="false" aria-controls="collapseComments">View Comments <i class="fa fa-comments" aria-hidden="true"></i></button>
+            <div class="collapse" id="collapseComments{{items.id}}">
 
               <div class="well">
                 <div class="actionBox">
@@ -106,31 +109,24 @@
                   </ul>
                   <form class="form-inline" role="form">
                     <div class="form-group">
-                      <input class="form-control" ng-model="mc.newComment" id="$index" type="text" placeholder="{{mc.somePlaceholder}}" />
+                      <input class="form-control" ng-model="mc.newComment" id="items.id" type="text" placeholder="{{mc.somePlaceholder}}" />
                     </div>
                     <div class="form-group">
                       <button class="btn btn-default" ng-click='mc.postComment(items)'>Add</button>
                     </div>
                   </form>
                 </div>
-                <!-- ability to add comments use restaurant db call -->
               </div>
 
-            </div>
-          </div>
-          <!-- end data-parent -->
-        </div>
-      </div>
-      <!-- <pagination total-items="menuArray.length" items-per-page="items.length" ng-model="currentPage" class="pagination-sm"></pagination> -->
-    </div>
-    <!-- </div> -->
-  </div>
+            </div> <!-- end comment collapse -->
+
+          </div> <!-- end buttonGroup (collapse and comments button group) -->
+        </div> <!-- end thumbnail -->
+      </div> <!-- end meal box -->
+    </div> <!-- end col-md-12 -->
+  </div> <!-- end top row -->
 
 </div>
-
-<!-- <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAU6kZG1X1QVzGC0xjEbJACzPaZ-yl3afo&callback=initMap">
-</script> -->
 
 <div class="navbar navbar-fixed-bottom">
   <p>powered by: <a href="http://openmenu.com" target="blank"><img height="25" width="120" src="https://openmenu.com/images/openmenu-250-49.png" alt="Powered by OpenMenu" /></a></p>

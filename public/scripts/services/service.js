@@ -22,6 +22,7 @@ myApp.service('MealService', function($http) {
       data: credentials
     }).then(function(response) {
       console.log('back from register attempt:', response);
+      sv.response = response;
     });
   } // end register
 
@@ -30,7 +31,7 @@ myApp.service('MealService', function($http) {
   //   sv.ul = usernameList;
   //   return usernameList.unshift(username);
   // };
-  //
+
   // sv.getUsername = function() {
   //   console.log(usernameList);
   //   sv.ul = usernameList;
@@ -41,13 +42,13 @@ myApp.service('MealService', function($http) {
     console.log(storageList);
     sv.sl = storageList;
     return storageList.unshift(storageObject);
-  };
+  }; // for data persistence search from home page
 
   sv.getRequests = function() {
     console.log(storageList);
     sv.sl = storageList;
     return sv.sl;
-  };
+  }; // for data persistence search from home page
 
   sv.openMenuGet = function(restaurant) {
     console.log('info', restaurant);
@@ -70,7 +71,7 @@ myApp.service('MealService', function($http) {
     });
   } // end openMenuGet
 
-  sv.restaurantGet = function(id) { // test
+  sv.restaurantGet = function(id) {
     return $http({
       method: 'GET',
       url: 'https://openmenu.com/api/v2/restaurant.php?key=8c3043ce-5bb0-11e7-8837-00163eeae34c', // edit parameters
@@ -84,7 +85,7 @@ myApp.service('MealService', function($http) {
       console.log('in service, Menu data: ', response.data);
       return response.data;
     });
-  } // end openMenuGet
+  } // sent back to openMenuGet
 
   sv.getRating = function(item) {
     return $http({
@@ -111,7 +112,6 @@ myApp.service('MealService', function($http) {
       method: 'GET',
       url: '/restaurants/add/' + item + '/comments'
     }).then(function(response) {
-      // console.log('back from getComments:', response.data);
       sv.commentData = response.data;
     }); // find the average rating
   }
@@ -133,7 +133,7 @@ myApp.service('MealService', function($http) {
     }).then(function(response) {
       console.log('back from getImages:', response.data);
       sv.imageData = response.data;
-    }); // find the average rating
+    }); // the average rating is found next
   }
 
   sv.postImage = function(imageObject) {

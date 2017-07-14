@@ -17,25 +17,27 @@
 </nav>
 
 <div class="topHead">
-  <img src="images/MealWise.png" alt="MealWise Icon">
+  <img src="images/MealWise.png" alt="MealWise Icon" ng-cloak>
 </div>
 
-<div class="content" ng-controller="storageController as sc">
+<!-- content Box -->
+<div class="content" ng-controller="storageController as sc" ng-cloak>
   <h1>Login</h1>
   <p><strong>Username</strong></p>
   <div class="form-group input-group">
-    <span class="input-group-addon"><i class="fa fa-user" aria-hidden="true"></i></span>
+    <span class="input-group-addon"><i class="fa fa-user" aria-hidden="true"></i></span ng-cloak>
     <input type="text" class="form-control" placeholder='Username' ng-model='mc.nameInput'>
   </div>
   <p><strong>Password</strong></p>
   <div class="form-group input-group">
-    <span class="input-group-addon"><i class="fa fa-lock" aria-hidden="true"></i></span>
+    <span class="input-group-addon"><i class="fa fa-lock" aria-hidden="true"></i></span ng-cloak>
     <input type="password" class="form-control" placeholder='Password' ng-model='mc.passwordInput'>
   </div>
   <button class="btn btn-default" ng-click='mc.logIn(); sc.usernameTransfer()'>Get Started!</button>
   <p><a href="#!/registerUser">Create an Account</a></p>
 </div>
 
+<!-- footer -->
 <div class="navbar navbar-fixed-bottom">
 <p>powered by: <a href="http://openmenu.com" target="blank"><img height="25" width="120" src="https://openmenu.com/images/openmenu-250-49.png" alt="Powered by OpenMenu" /></a></p>
 </div>

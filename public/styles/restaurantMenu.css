@@ -17,6 +17,10 @@ body {
   padding-top: 4px;
 }
 
+pagination {
+  text-align: center;
+}
+
 #mapButton {
   text-align: center;
   margin-bottom: 10px;
