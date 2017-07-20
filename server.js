@@ -2,13 +2,13 @@
 var express = require('express');
 var app = express();
 var index = require('./modules/routes/index');
-var register = require('./modules/routes/register');
+var inventory = require('./modules/routes/inventory');
 var meals = require('./modules/routes/meals');
 
 // uses
 app.use( express.static('public'));
 app.use('/', index);
-app.use('/register', register);
+app.use('/inventory', inventory);
 app.use('/restaurants', meals);
 
 // globals

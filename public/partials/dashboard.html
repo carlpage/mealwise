@@ -1,0 +1,41 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <i class="fa fa-bars" aria-hidden="true"></i>
+      </button>
+      <a class="navbar-brand">MealWise</a>
+    </div>
+    <div id="navbar" class="collapse navbar-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#!/login">Logout  <i class="fa fa-sign-out" aria-hidden="true"></i></a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="topHead" ng-cloak>
+  <img src="images/MealWise.png" alt="MealWise Icon"> <!-- MealWise logo -->
+  <h1>Choose better meals</h1>
+</div>
+
+<!-- content box -->
+<div class="content" ng-cloak>
+  <p><strong>Name of Restaurant</strong></p>
+  <div class="form-group input-group">
+    <span class="input-group-addon"><img id="icon" src="https://d30y9cdsu7xlg0.cloudfront.net/png/203028-200.png" alt="fork"></span>
+    <input type="text" class="form-control" placeholder='Name of Restaurant' ng-model='sc.nameInput'>
+  </div>
+  <p><strong>City</strong></p>
+  <div class="form-group input-group" ng-cloak>
+    <span class="input-group-addon"><img id="icon" src="https://d30y9cdsu7xlg0.cloudfront.net/png/10486-200.png" alt="cityLogo"></span>
+    <input type="text" class="form-control" placeholder='City' ng-model='sc.cityInput'>
+  </div>
+  <a type="button" class="btn btn-default" ng-click='sc.dataTransfer()'>Search! <i class="fa fa-search" aria-hidden="true"></i></a>
+</div>
+
+<!-- footer -->
+<div class="navbar navbar-fixed-bottom">
+  <p>powered by: <a href="http://openmenu.com" target="blank"><img height="25" width="120" src="https://openmenu.com/images/openmenu-250-49.png" alt="Powered by OpenMenu" /></a></p>
+</div>

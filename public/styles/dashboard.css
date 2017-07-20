@@ -1,0 +1,65 @@
+body {
+  font-family: "Lato";
+  background-image: url("../../images/jez-timms-90838.jpg");
+  background-size: cover;
+  background-position: center middle;
+}
+
+.navbar-header a {
+  font-size: 2.2rem;
+}
+
+#navbar a {
+  font-size: 1.7rem;
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
+.topHead {
+  padding-top: 5%;
+  text-align: center;
+  color: white;
+}
+
+.topHead img {
+  display: block;
+  margin: auto;
+}
+
+.content {
+  text-align: center;
+  margin: 0 auto;
+  max-width: 450px;
+  padding: 20px 24px 24px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+}
+
+.content p {
+  text-align: left;
+  font-size: 1.7rem;
+}
+
+#icon {
+  width: 15px;
+  height: 14px;
+}
+
+.btn-default {
+  text-align: center;
+  margin-bottom: 8px;
+  font-size: 1.7rem;
+}
+
+.topMeals h2 {
+  text-align: center;
+}
+
+.navbar:last-child {
+  background-color: #E7E7E7;
+  color: black;
+  text-align: center;
+  padding-top: 4px;
+}
