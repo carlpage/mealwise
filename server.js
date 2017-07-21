@@ -7,7 +7,7 @@ var register = require('./modules/routes/register');
 
 // uses
 app.use(express.static('public'));
-app.use('/inventory', inventory); // not set up yet
+// app.use('/inventory', inventory); // not set up yet
 app.use('/login', login);
 app.use('/register', register);
 

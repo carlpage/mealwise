@@ -17,27 +17,29 @@ var pool = new pg.Pool(config);
 // get user
 app.get('/user', function(req, res) {
   console.log('GET user route hit');
-  //assemble object to send
+  // assemble object to send
   var objectToSend = {
     response: 'from GET user route'
-  }; //end objectToSend
-  //send info back to client
+  }; // end objectToSend
+  // send info back to client
   pool.connect(function(err, connection, done) {
     if (err) {
       console.log('err connecting to db');
       done();
       res.send('nope!!');
     } else {
+      var email = req.body.email;
+      var password = req.body.password;
       console.log('connected to db');
-      var user = connection.query('SELECT * FROM users WHERE email = lower(' + req.body.email + ') AND password = crypt("12345", ' + req.body.password + ')');
+      var user = connection.query('SELECT * FROM users WHERE email = lower(' + email + ') AND password = crypt("12345", ' + password + ')');
       resultSet.on('row', function(row) {
         user.push(row);
-      }); //end
+      }); // end
       resultSet.on('end', function() {
         done();
         res.send(user);
       });
-    } //end no error
+    } // end no error
   }); // end pool connect
 });
 

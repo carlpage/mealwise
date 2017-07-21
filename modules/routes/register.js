@@ -28,7 +28,7 @@ app.post('/user', urlencodedParser, function(req, res) {
     } else {
       console.log('connected to db');
       var newUser = [];
-      var resultSet = client.query('INSERT INTO users (email, password) VALUES(' + req.body.email + ', crypt('12345', gen_salt('bf', 8))'); //how would I get the crypt and salt to work?
+      var resultSet = client.query('INSERT INTO users (email, password) VALUES(' + req.body.email + ', crypt('12345', gen_salt('bf', 8)))'); //how would I get the crypt and salt to work?
       resultSet.on('row', function(row) {
         allUsers.push(row);
       }); // end
