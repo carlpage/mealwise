@@ -6,6 +6,9 @@
         <i class="fa fa-bars" aria-hidden="true"></i>
       </button>
       <a class="navbar-brand">Pab's Packs</a>
+      <a class="navbar-item">Dashboard</a>
+      <a class="navbar-item">Inventory</a>
+      <a class="navbar-item">Donations Tracker</a>
     </div>
     <div id="navbar" class="collapse navbar-collapse">
       <ul class="nav navbar-nav navbar-right">
@@ -17,20 +20,18 @@
 </nav>
 
 <!-- content Box -->
-<div class="content" ng-controller="storageController as sc" ng-cloak>
+<div class="content" ng-cloak>
   <h1>Login</h1>
   <p><strong>Username</strong></p>
   <div class="form-group input-group">
     <span class="input-group-addon"><i class="fa fa-user" aria-hidden="true"></i></span ng-cloak>
-    <input type="text" class="form-control" placeholder='Username' ng-model='mc.nameInput'>
+    <input type="text" class="form-control" placeholder='Username' ng-model='pc.nameInput'>
   </div>
   <p><strong>Password</strong></p>
   <div class="form-group input-group">
     <span class="input-group-addon"><i class="fa fa-lock" aria-hidden="true"></i></span ng-cloak>
-    <input type="password" class="form-control" placeholder='Password' ng-model='mc.passwordInput'>
+    <input type="password" class="form-control" placeholder='Password' ng-model='pc.passwordInput'>
   </div>
-  <button class="btn btn-default" ng-click='mc.logIn(); sc.usernameTransfer()'>Get Started!</button>
+  <button class="btn btn-default" ng-click='pc.logIn()'>Get Started!</button>
   <p><a href="#!/registerUser">Create an Account</a></p>
 </div>
-
-<!-- footer -->

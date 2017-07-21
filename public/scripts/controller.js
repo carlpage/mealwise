@@ -34,32 +34,32 @@ myApp.directive('head', ['$rootScope', '$compile',
 myApp.config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/', {
     templateUrl: "partials/login.html",
-    controller: "inventoryController as ic",
+    controller: "packController as pc",
     css: "styles/style.css"
   }).when('/login', {
     templateUrl: "partials/login.html",
-    controller: "inventoryController as ic",
+    controller: "packController as pc",
     css: "styles/style.css"
   }).when('/registerUser', {
     templateUrl: "partials/registerUser.html",
-    controller: "inventoryController as ic",
+    controller: "packController as pc",
     css: "styles/style.css"
-  })when('/dashboard', {
+  }).when('/dashboard', {
     templateUrl: "partials/dashboard.html",
-    controller: "inventoryController as ic",
-    css: "styles/style.css"
+    controller: "packController as pc",
+    css: "styles/dashboard.css"
   }).when('/inventory', {
     templateUrl: "partials/inventory.html",
-    controller: "inventoryController as ic",
-    css: "styles/restaurantMenu.css",
+    controller: "packController as pc",
+    css: "styles/inventory.css",
   }).when('/tracker', {
     templateUrl: "partials/tracker.html",
-    controller: "inventoryController as ic",
-    css: "styles/restaurantMenu.css",
+    controller: "packController as pc",
+    css: "styles/tracker.css",
   });
 }]);
 
-myApp.controller('mealController', function(MealService, $location) {
+myApp.controller('packController', function(MealService, $location) {
   console.log('in the controller');
   var vm = this;
 
@@ -70,7 +70,7 @@ myApp.controller('mealController', function(MealService, $location) {
   vm.logIn = function() {
     console.log('clicked logIn');
     var registerObject = {
-      username: vm.nameInput,
+      email: vm.emailInput,
       password: vm.passwordInput
     };
     MealService.logIn(registerObject).then(function() {
@@ -93,13 +93,12 @@ myApp.controller('mealController', function(MealService, $location) {
           })
       } // end else
     }); // end MealService
-
   } // end logIn
 
   vm.register = function() {
     console.log('clicked register');
     var registerObject = {
-      username: vm.registerNameInput,
+      email: vm.registerEmail,
       password: vm.registerPasswordInput
     };
     MealService.register(registerObject).then(function() {

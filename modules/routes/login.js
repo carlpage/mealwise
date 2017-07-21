@@ -1,7 +1,8 @@
 var express = require('express');
-var router = express.Router();
+var app = express();
+var path = require('path');
 var bodyParser = require('body-parser');
-var user = require('../user');
+var router = express.Router();
 var pg = require('pg');
 
 var config = {
@@ -13,29 +14,31 @@ var config = {
 
 var pool = new pg.Pool(config);
 
-// add user
-app.post('/user', urlencodedParser, function(req, res) {
-  console.log('POST to users');
+// get user
+app.get('/user', function(req, res) {
+  console.log('GET user route hit');
   //assemble object to send
   var objectToSend = {
-    response: 'from POST users route'
+    response: 'from GET user route'
   }; //end objectToSend
+  //send info back to client
   pool.connect(function(err, connection, done) {
     if (err) {
       console.log('err connecting to db');
       done();
-      res.send(400)
+      res.send('nope!!');
     } else {
       console.log('connected to db');
-      var newUser = [];
-      var resultSet = client.query('INSERT INTO users (email, password) VALUES(' + req.body.email + ', crypt('12345', gen_salt('bf', 8))'); //how would I get the crypt and salt to work?
+      var user = connection.query('SELECT * FROM users WHERE email = lower(' + req.body.email + ') AND password = crypt("12345", ' + req.body.password + ')');
       resultSet.on('row', function(row) {
-        allUsers.push(row);
+        user.push(row);
       }); //end
       resultSet.on('end', function() {
         done();
-        res.send(newUser);
+        res.send(user);
       });
     } //end no error
   }); // end pool connect
 });
+
+module.exports = router;

@@ -1,12 +1,10 @@
 myApp.service('MealService', function($http) {
   var sv = this;
-  var storageList = [];
-  var openMenuToken = '8c3043ce-5bb0-11e7-8837-00163eeae34c';
 
   sv.logIn = function(credentials) {
     return $http({
       method: 'POST',
-      url: '/',
+      url: '/user',
       data: credentials
     }).then(function(response) {
       console.log('back from login attempt:', response);
@@ -17,7 +15,7 @@ myApp.service('MealService', function($http) {
   sv.register = function(credentials) {
     return $http({
       method: 'POST',
-      url: '/register',
+      url: '/user',
       data: credentials
     }).then(function(response) {
       console.log('back from register attempt:', response);
