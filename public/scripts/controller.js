@@ -102,13 +102,13 @@ myApp.controller('packController', function(MealService, $location) {
       password: vm.registerPasswordInput
     };
     MealService.register(registerObject).then(function() {
-      vm.registerNameInput = '';
+      vm.registerEmailInput = '';
       vm.registerPasswordInput = '';
     }); // end then
   } // end register
 
   vm.logOut = function() {
-    vm.nameInput = '';
+    vm.emailInput = '';
     vm.passwordInput = '';
   } // end logOut
 

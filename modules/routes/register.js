@@ -16,10 +16,10 @@ var pool = new pg.Pool(config);
 // add user
 app.post('/user', urlencodedParser, function(req, res) {
   console.log('POST to users');
-  //assemble object to send
+  // assemble object to send
   var objectToSend = {
     response: 'from POST users route'
-  }; //end objectToSend
+  }; // end objectToSend
   pool.connect(function(err, connection, done) {
     if (err) {
       console.log('err connecting to db');
@@ -31,11 +31,11 @@ app.post('/user', urlencodedParser, function(req, res) {
       var resultSet = client.query('INSERT INTO users (email, password) VALUES(' + req.body.email + ', crypt('12345', gen_salt('bf', 8))'); //how would I get the crypt and salt to work?
       resultSet.on('row', function(row) {
         allUsers.push(row);
-      }); //end
+      }); // end
       resultSet.on('end', function() {
         done();
         res.send(newUser);
       });
-    } //end no error
+    } // end no error
   }); // end pool connect
 });
