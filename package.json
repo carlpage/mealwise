@@ -14,9 +14,9 @@
   "author": "Carl Page",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/carlpage/mealwise/issues"
+    "url": "https://github.com/carlpage/pabs_packs/issues"
   },
-  "homepage": "https://github.com/carlpage/mealwise#readme",
+  "homepage": "https://github.com/carlpage/pabs_packs#readme",
   "dependencies": {
     "angular": "^1.6.4",
     "angular-animate": "^1.6.5",
