@@ -2,6 +2,7 @@ var express = require('express');
 var path = require('path');
 var router = express.Router();
 var bodyParser = require('body-parser');
+var pg = require('pg');
 
 // uses
 router.use(bodyParser.urlencoded({extended: true}));
